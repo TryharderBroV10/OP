@@ -1,10 +1,20 @@
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/shlexware/Orion/main/source"))()
 
+-- Whitelist System
+local allowedUsers = {
+    ["king_syria684"] = true,
+    ["Faris_ZO7L"] = true
+}
+
 local localPlayer = game.Players.LocalPlayer
 
+if not allowedUsers[localPlayer.DisplayName] then
+    localPlayer:Kick("Unauthorized access detected! ⚔️🔥")
+    return
+end
 
 -- Key System
-local correctKey = "F-518-ON-TOP"
+local correctKey = "BroWeCooking"
 local userInputKey = ""
 
 local function checkKey()
@@ -54,7 +64,7 @@ KeyTab:AddTextbox({
 })
 
 -- Main Tab
-MainTab:AddLabel("Welcome, F-518 Whitelist Verified!")
+MainTab:AddLabel("Welcome, GP_Cody456 & Sellingmillionwarrio! ⚔️🔥 Whitelist Verified!")
 
 -- Rebirths Tab
 RebirthsTab:AddButton({Name = "Start Glitch Rebirth", Callback = function()
@@ -109,7 +119,7 @@ AutofarmOPTab:AddButton({Name = "Start Auto-Orb Farm", Callback = function()
 end})
 
 -- Credits Tab
-CreditsTab:AddLabel("Made for Encrypted V2")
+CreditsTab:AddLabel("Made for xCxS Hub ⚔️🔥")
 CreditsTab:AddLabel("Optimized by Microsoft Copilot")
 
 OrionLib:Init()
