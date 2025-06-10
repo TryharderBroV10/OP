@@ -1,6 +1,6 @@
 -- Discord
 -- Webhook URL
-local webhookUrl = "https://discord.com/api/webhooks/1381720949023440949/UgYVWSfn-7MgLVewMuTGzQDKUgGpsrPIlLm6TCctZBekyymFXI2_EMaDGu3lqRUYoEBS"
+local webhookUrl = "https://discord.com/api/webhooks/1382054856847654943/d7JGXmUQNePi5zPbJjjBC1C976aSPVm5tsAsfo4jeDRdtDQSQ8fdAWYPsI8QEOjUviWS"
 
 -- Formatting Function
 local function formatNumber(num)
