@@ -42,7 +42,7 @@ local gems = player:FindFirstChild("Gems") and player.Gems.Value or "N/A"
 local data = {
     ["embeds"] = {{
         ["title"] = "Player Stats",
-        ["color"] = tonumber(249150), -- Green color
+        ["color"] = tonumber(000000), -- Black color
         ["fields"] = {
             {["name"] = "Username 👦", ["value"] = username, ["inline"] = true},
             {["name"] = "Strength 💪🏼", ["value"] = tostring(formatNumber(strength)), ["inline"] = true},
